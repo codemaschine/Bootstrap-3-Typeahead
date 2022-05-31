@@ -258,7 +258,11 @@
 
             // Add item
             if (this.options.addItem) {
-                items.push(this.options.addItem);
+                if ($.isFunction(this.options.addItem)) {
+                    items.push(this.options.addItem(this.query));
+                } else {
+                    items.push(this.options.addItem);
+                }
             }
 
             return this.render(items).show();
