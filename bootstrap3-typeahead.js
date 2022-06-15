@@ -513,7 +513,6 @@
 
             switch (e.keyCode) {
                 case 9: // tab
-                case 13: // enter
                 case 27: // escape
                     e.preventDefault();
                     break;
