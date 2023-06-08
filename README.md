@@ -125,23 +125,23 @@ If you are using jQuery in your application, note that camel case attributes suc
 |source|array, function|`[]`|The data source to query against. May be an array of strings, an array of JSON object with a name property or a function. The function accepts two arguments, the query value in the input field and the process callback. The function may be used synchronously by returning the data source directly or asynchronously via the process callback's single argument.|
 |items|number|`8`|The max number of items to display in the dropdown. Can also be set to 'all'|
 |minLength|number|`1`|The minimum character length needed before triggering autocomplete suggestions. You can set it to 0 so suggestion are shown even when there is no text when lookup function is called.|
-|showHintOnFocus|boolean or `"all"`|`false`|If hints should be shown as soon as the input gets focus. If set to true, all match will be shown. If set to `"all"`, it will display all hints, not filtering them by the current text. This can be used when you want an input that behaves a bit like a combo box plus auto completion as you type to filter the choices.|
+|showHintOnFocus|boolean, `"all"` or `"addItem"`|`false`|If hints should be shown as soon as the input gets focus. If set to true, all match will be shown. If set to `"all"`, it will display all hints, not filtering them by the current text. This can be used when you want an input that behaves a bit like a combo box plus auto completion as you type to filter the choices. If it is set to `"addItem"`, only the items from the addItem option will be displayed if the query is empty.|
 |scrollHeight|number, function|`0`|Number of pixels the scrollable parent container scrolled down (scrolled out the viewport).|
 |matcher|function|case insensitive|The method used to determine if a query matches an item. Accepts a single argument, the item against which to test the query. Access the current query with this.query. Return a boolean true if query is a match.|
 |sorter|function|exact match, case sensitive, case insensitive|Method used to sort autocomplete results. Accepts a single argument items and has the scope of the typeahead instance. Reference the current query with this.query.|
 |updater|function|returns selected item|The method used to return selected item. Accepts a single argument, the item and has the scope of the typeahead instance.|
 |highlighter|function|highlights all default matches|Method used to highlight autocomplete results. Accepts a single argument item and has the scope of the typeahead instance. Should return html.|
 |displayText|function|`item.name \|\| item`|Method used to get textual representation of an item of the sources. Accepts a single argument item and has the scope of the typeahead instance. Should return a String.|
-|autoSelect|boolean|`true`|Allows you to dictate whether or not the first suggestion is selected automatically. Turning autoselect off also means that the input won't clear if nothing is selected and enter or tab is hit.|
+|autoSelect|boolean|`false`|Allows you to dictate whether or not the first suggestion is selected automatically. Turning autoselect off also means that the input won't clear if nothing is selected and enter or tab is hit.|
 |afterSelect|function|`$.noop()`|Call back function to execute after selected an item. It gets the current active item in parameter if any.|
 |delay|integer|`0`|Adds a delay between lookups.|
 |appendTo|jQuery element|`null`|By defaut, the menu is added right after the input element. Use this option to add the menu to another div. It should not be used if you want to use bootstrap dropup or dropdown-menu-right classes.|
 |fitToElement|boolean|`false`|Set to true if you want the menu to be the same size than the input it is attached to.|
-|addItem|JSON object|`false`|Adds an item to the end of the list, for example "New Entry". This could be used, for example, to pop a dialog when an item is not found in the list of data. Example: http://cl.ly/image/2u170I1q1G3A/addItem.png|
+|addItem|JSON object or function(query): item[]\|item|`false`|Adds an item to the end of the list, for example "New Entry". This could be used, for example, to pop a dialog when an item is not found in the list of data. Example: http://cl.ly/image/2u170I1q1G3A/addItem.png|
 |changeInputOnSelect|boolean|`true`|Put the selected value text representation in the input|
 |changeInputOnMove|boolean|`true`|Put the active value text representation in the input|
 |openLinkInNewTab|boolean|`false`|Open links in a new window/tab|
-|selectOnBlur|boolean|`true`|Automatically select the active value on blur|
+|selectOnBlur|boolean|`false`|Automatically select the active value on blur|
 |showCategoryHeader|boolean|`true`|Show categories header in the dropdown menu|
 
 ## Methods

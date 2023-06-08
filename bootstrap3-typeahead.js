@@ -1,5 +1,5 @@
 /* =============================================================
- * bootstrap3-typeahead.js v4.0.2
+ * bootstrap3-typeahead.js v5.0.0
  * https://github.com/bassjobsen/Bootstrap-3-Typeahead
  * =============================================================
  * Original written by @mdo and @fat
@@ -68,7 +68,7 @@
         this.fitToElement = typeof this.options.fitToElement == 'boolean' ? this.options.fitToElement : false;
         this.shown = false;
         this.listen();
-        this.showHintOnFocus = typeof this.options.showHintOnFocus == 'boolean' || this.options.showHintOnFocus === 'all' ? this.options.showHintOnFocus : false;
+        this.showHintOnFocus = typeof this.options.showHintOnFocus == 'boolean' || this.options.showHintOnFocus === 'all' || this.options.showHintOnFocus === 'addItem' ? this.options.showHintOnFocus : false;
         this.afterSelect = this.options.afterSelect;
         this.afterEmptySelect = this.options.afterEmptySelect;
         this.addItem = false;
@@ -242,6 +242,10 @@
 
             items = this.sorter(items);
 
+            if (!this.query.length && this.options.showHintOnFocus == 'addItem' && this.options.addItem) {
+                items = [];
+            }
+
             if (!items.length && !this.options.addItem) {
                 return this.shown ? this.hide() : this;
             }
@@ -259,10 +263,19 @@
             // Add item
             if (this.options.addItem) {
                 if ($.isFunction(this.options.addItem)) {
-                    items.push(this.options.addItem(this.query));
+                    let add = this.options.addItem(this.query);
+                    if (Array.isArray(add)) {
+                        items = items.concat(add);
+                    } else {
+                        items.push(add);
+                    }
                 } else {
                     items.push(this.options.addItem);
                 }
+            }
+
+            if (!items.length) {
+                return this.shown ? this.hide() : this;
             }
 
             return this.render(items).show();
@@ -583,13 +596,7 @@
                 case 16: // shift
                 case 17: // ctrl
                 case 18: // alt
-                    break;
-
                 case 9: // tab
-                    if (!this.shown || (this.showHintOnFocus && !this.keyPressed)) {
-                        return;
-                    }
-                    this.select();
                     break;
                 case 13: // enter
                     if (!this.shown) {
@@ -658,6 +665,7 @@
 
         mouseleave: function (e) {
             this.mousedover = false;
+            this.$menu.find('.active').removeClass('active');
             if (!this.focused && this.shown) {
                 this.hide();
             }
@@ -721,7 +729,7 @@
         items: 8,
         minLength: 1,
         scrollHeight: 0,
-        autoSelect: true,
+        autoSelect: false,
         afterSelect: $.noop,
         afterEmptySelect: $.noop,
         addItem: false,
@@ -731,9 +739,9 @@
         changeInputOnSelect: true,
         changeInputOnMove: true,
         openLinkInNewTab: false,
-        selectOnBlur: true,
+        selectOnBlur: false,
         showCategoryHeader: true,
-        theme: "bootstrap3",
+        theme: "bootstrap4",
         themes: {
         bootstrap3: {
             menu: '<ul class="typeahead dropdown-menu" role="listbox"></ul>',
@@ -744,7 +752,7 @@
         },
         bootstrap4: {
             menu: '<div class="typeahead dropdown-menu" role="listbox"></div>',
-            item: '<button class="dropdown-item" role="option"></button>',
+            item: '<button class="dropdown-item" role="option" type="button"></button>',
             itemContentSelector: '.dropdown-item',
             headerHtml: '<h6 class="dropdown-header"></h6>',
             headerDivider: '<div class="dropdown-divider"></div>'
